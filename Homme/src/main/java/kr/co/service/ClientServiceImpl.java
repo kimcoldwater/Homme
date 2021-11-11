@@ -12,9 +12,14 @@ public class ClientServiceImpl implements ClientService{
 	private ClientDAO dao;
 	
 	
-	public void deleteClient(String memberNo) throws Exception{
+	public void deleteClient(String memberId) throws Exception{
 		
-		dao.deleteClient(memberNo);
+		dao.deleteClient(memberId);
+		
+	}
+	
+	public void stopClient(String memberId) throws Exception {
+		dao.stopClient(memberId);
 		
 	}
 }

@@ -3,7 +3,14 @@
 <mapper namespace="ClientMapper">
 
 <delete id="deleteClient">
-delete from MEMBER where MEM_NO = #{memberNo}
+delete from MEMBER where MEM_ID = #{memberId}
 </delete>
+
+<update id="disableMember">
+	UPDATE member
+	set MEMBER_RANK = 2
+	where MEMBER_RANK = 1
+</update>
+
 
 </mapper>
