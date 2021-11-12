@@ -3,14 +3,19 @@
 <mapper namespace="ClientMapper">
 
 <delete id="deleteClient">
-delete from MEMBER where MEM_ID = #{memberId}
+delete from MEMBER 
+where mem_id = #{memberId}
 </delete>
+
 
 <update id="disableMember">
 	UPDATE member
-	set MEMBER_RANK = 2
-	where MEMBER_RANK = 1
+	set MEM_RANK = 2
+	where MEM_ID = #{memberId}
 </update>
 
+<select id="count" resultType="int">
+select count(*) from member where mem_id = #{memberId}
+</select>
 
 </mapper>

@@ -18,8 +18,12 @@ public class ClientServiceImpl implements ClientService{
 		
 	}
 	
-	public void stopClient(String memberId) throws Exception {
-		dao.stopClient(memberId);
+	public void disableMember(String memberId) throws Exception {
+		dao.disableMember(memberId);
+		
+	}
+	public int count(String memberId) throws Exception{
+		return dao.count(memberId);
 		
 	}
 }
