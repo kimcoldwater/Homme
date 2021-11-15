@@ -1,9 +1,13 @@
 package kr.co.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.co.dao.ClientDAO;
+import kr.co.vo.MemberVO;
+import kr.co.vo.SearchCriteria;
 
 @Service
 public class ClientServiceImpl implements ClientService{
@@ -26,4 +30,15 @@ public class ClientServiceImpl implements ClientService{
 		return dao.count(memberId);
 		
 	}
+		
+	@Override
+	public List<MemberVO> list(SearchCriteria scri) throws Exception{
+		
+		return dao.list(scri);
+	}
+	public int listCount(SearchCriteria scri) throws Exception{
+		
+		return dao.listCount(scri);
+	}
+	
 }

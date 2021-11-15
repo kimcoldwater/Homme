@@ -7,14 +7,19 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import kr.co.service.ClientService;
+import kr.co.vo.PageMaker;
+import kr.co.vo.SearchCriteria;
 
 @RequestMapping(value="/master")
 @Controller
@@ -26,8 +31,17 @@ public class ClientController {
 	ClientService clientService;
 	
 	@RequestMapping(value="/clientManage", method=RequestMethod.GET)
-	public String clientManage() throws Exception{
+	public String clientManage(Model model,@ModelAttribute("scri") SearchCriteria scri) throws Exception{
 		logger.info("들어왔나?");
+		
+		model.addAttribute("list",clientService.list(scri));
+		
+		PageMaker pageMaker= new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(clientService.listCount(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
 		return "/master/clientManage";
 	}
 	
@@ -66,5 +80,7 @@ public class ClientController {
 		}
 		return "/master/clientManage";
 	}
+	
+
 	
 }

@@ -7,6 +7,10 @@ delete from MEMBER
 where mem_id = #{memberId}
 </delete>
 
+<delete id="deleteBoard">
+delete from BOARD 
+where B_no = #{boardNo}
+</delete>
 
 <update id="disableMember">
 	UPDATE member
@@ -17,5 +21,63 @@ where mem_id = #{memberId}
 <select id="count" resultType="int">
 select count(*) from member where mem_id = #{memberId}
 </select>
+
+<select id="count2" resultType="int">
+select count(*) from board where b_no = #{boardNo}
+</select>
+
+<select id="list" resultType="kr.co.vo.MemberVO">
+	SELECT MEM_ID
+		  ,MEM_NAME
+		  ,MEM_EMAIL
+		  ,MEM_TEL
+		FROM MEMBER
+		ORDER BY MEM_ID DESC  
+</select>
+
+<select id="list2" resultType="kr.co.vo.BoardVO">
+	SELECT B_NO
+		  ,B_TITEL
+		  ,B_WRITER
+		  ,B_MEM_NO
+		FROM BOARD
+		ORDER BY B_NO DESC  
+</select>
+
+<select id="listPage" resultType="kr.co.vo.MemberVO" parameterType="kr.co.vo.SearchCriteria">
+	SELECT MEM_ID
+		  ,MEM_NAME
+		  ,MEM_EMAIL
+		  ,MEM_TEL
+		FROM(
+		SELECT MEM_ID
+		  ,MEM_NAME
+		  ,MEM_EMAIL
+		  ,MEM_TEL
+		  ,ROW_NUMBER() OVER(ORDER BY MEM_NO DESC) AS RNUM
+		  FROM MEMBER
+		         WHERE 1=1 
+		         	<include refid="search"></include>
+		)MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY MEM_ID DESC
+</select>
+
+<select id="listCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(MEM_NO)
+		   FROM MEMBER
+		   WHERE 1=1
+		<include refid="search"></include>	
+		   AND MEM_NO > 0
+	</select>
+
+<sql id="search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND MEM_ID LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'c'.toString()">AND MEM_NAME LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND MEM_EMAIL LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'j'.toString()">AND MEM_TEL LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
 
 </mapper>
