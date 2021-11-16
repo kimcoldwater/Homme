@@ -108,9 +108,9 @@ public class ClientController {
 			logger.info("게시물이 없는데");
 			model.addAttribute("aaa","글삭제하고 튐");
 			
-			return "redirect:/master/clientManage";
+			return "redirect:/master/boardManage";
 		}
-		return "redirect:/master/clientManage";
+		return "redirect:/master/boardManage";
 	}
 
 	
