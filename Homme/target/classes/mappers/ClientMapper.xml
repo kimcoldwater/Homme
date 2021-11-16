@@ -27,10 +27,14 @@ select count(*) from board where b_no = #{boardNo}
 </select>
 
 <select id="list" resultType="kr.co.vo.MemberVO">
-	SELECT MEM_ID
+	SELECT MEM_NO
+		  ,MEM_ID
 		  ,MEM_NAME
 		  ,MEM_EMAIL
 		  ,MEM_TEL
+		  ,MEM_ADR
+		  ,MEM_POINT
+		  ,MEM_RANK
 		FROM MEMBER
 		ORDER BY MEM_ID DESC  
 </select>
@@ -39,28 +43,55 @@ select count(*) from board where b_no = #{boardNo}
 	SELECT B_NO
 		  ,B_TITEL
 		  ,B_WRITER
-		  ,B_MEM_NO
+		  ,B_CATE
 		FROM BOARD
 		ORDER BY B_NO DESC  
 </select>
 
 <select id="listPage" resultType="kr.co.vo.MemberVO" parameterType="kr.co.vo.SearchCriteria">
-	SELECT MEM_ID
+	SELECT MEM_NO
+		  ,MEM_ID
 		  ,MEM_NAME
 		  ,MEM_EMAIL
 		  ,MEM_TEL
+		  ,MEM_ADR
+		  ,MEM_POINT
+		  ,MEM_RANK
 		FROM(
-		SELECT MEM_ID
+		SELECT MEM_NO
+		  ,MEM_ID
 		  ,MEM_NAME
 		  ,MEM_EMAIL
 		  ,MEM_TEL
+		  ,MEM_ADR
+		  ,MEM_POINT
+		  ,MEM_RANK
 		  ,ROW_NUMBER() OVER(ORDER BY MEM_NO DESC) AS RNUM
 		  FROM MEMBER
 		         WHERE 1=1 
 		         	<include refid="search"></include>
 		)MP
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
-		ORDER BY MEM_ID DESC
+		ORDER BY MEM_NO DESC
+</select>
+
+<select id="listPage2" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.SearchCriteria">
+	SELECT B_NO
+		  ,B_TITLE
+		  ,B_WRITER
+		  ,B_CATE
+		FROM(
+		SELECT B_NO
+		  ,B_TITLE
+		  ,B_WRITER
+		  ,B_CATE
+		  ,ROW_NUMBER() OVER(ORDER BY B_NO DESC) AS RNUM
+		  FROM BOARD
+		         WHERE 1=1 
+		         	<include refid="search2"></include>
+		)MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY B_NO DESC
 </select>
 
 <select id="listCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
@@ -70,13 +101,34 @@ select count(*) from board where b_no = #{boardNo}
 		<include refid="search"></include>	
 		   AND MEM_NO > 0
 	</select>
+	
+<select id="listCount2" parameterType="kr.co.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(B_NO)
+		   FROM BOARD
+		   WHERE 1=1
+		<include refid="search2"></include>	
+		   AND B_NO > 0
+	</select>	
 
 <sql id="search">
 		<if test="searchType != null">
+			<if test="searchType == 'n'.toString()">AND MEM_NO LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 't'.toString()">AND MEM_ID LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'c'.toString()">AND MEM_NAME LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'w'.toString()">AND MEM_EMAIL LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'j'.toString()">AND MEM_TEL LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'k'.toString()">AND MEM_ADR LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'p'.toString()">AND MEM_POINT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'r'.toString()">AND MEM_RANK LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
+
+<sql id="search2">
+		<if test="searchType != null">
+			<if test="searchType == 'a'.toString()">AND B_NO LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'b'.toString()">AND B_TITLE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'd'.toString()">AND B_WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'cate'.toString()">AND B_CATE LIKE '%' || #{keyword} || '%'</if>
 		</if>
 	</sql>
 

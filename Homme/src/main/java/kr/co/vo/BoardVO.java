@@ -12,6 +12,9 @@ public class BoardVO {
 	private Date b_date;
 	private Number b_count;
 	private String b_notice;
+	private int b_hit;
+	private int b_cate;
+	
 	public int getB_no() {
 		return b_no;
 	}
@@ -60,4 +63,17 @@ public class BoardVO {
 	public void setB_notice(String b_notice) {
 		this.b_notice = b_notice;
 	}
+	public int getB_hit() {
+		return b_hit;
+	}
+	public void setB_hit(int b_hit) {
+		this.b_hit = b_hit;
+	}
+	public int getB_cate() {
+		return b_cate;
+	}
+	public void setB_cate(int b_cate) {
+		this.b_cate = b_cate;
+	}
+	
 }

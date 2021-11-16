@@ -29,21 +29,25 @@ var msg = "${aaa}";
           </div>
         </section>
         <header>
-		<h4 align="center"> 게시판</h4>
+		<h4 align="center">가입한 회원목록</h4>
 	</header>
 	<hr />			
 	<section id="container">
 		<div class="container">
 		<form role="form" method="get">
 			<table class="table table-bordered table-sm" >
-			<tr><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th></tr>
+			<tr><th>번호</th><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th><th>주소</th><th>포인트</th><th>랭크</th></tr>
 						
 	<c:forEach items="${list}" var = "list">
 			<tr>
+				<td><c:out value="${list.mem_no}" /></td>
 				<td><c:out value="${list.mem_id}" /></td>
 				<td><c:out value="${list.mem_name}" /></td>
 				<td><c:out value="${list.mem_email}" /></td>
-				<td><fmt:formatDate value="${list.mem_tel}"/></td>
+				<td><c:out value="${list.mem_tel}"/></td>
+				<td><c:out value="${list.mem_adr}"/></td>
+				<td><c:out value="${list.mem_point}"/></td>
+				<td><c:out value="${list.mem_rank}"/></td>
 			</tr>
 	</c:forEach>
 						
@@ -51,10 +55,15 @@ var msg = "${aaa}";
 	<div  class="search">
 	<select name="searchType">
 	<option value="n"<c:out value="${scri.searchType == null ? 'selected' : ''}"/>>-----</option>
+	
+	 <option value="n"<c:out value="${scri.searchType eq 'n' ? 'selected' : ''}"/>>회원번호</option>
 	 <option value="t"<c:out value="${scri.searchType eq 't' ? 'selected' : ''}"/>>아이디</option>
       <option value="c"<c:out value="${scri.searchType eq 'c' ? 'selected' : ''}"/>>이름</option>
       <option value="w"<c:out value="${scri.searchType eq 'w' ? 'selected' : ''}"/>>이메일</option>
-      <option value="j"<c:out value="${scri.searchType eq 'tc' ? 'selected' : ''}"/>>전화번호</option>
+      <option value="j"<c:out value="${scri.searchType eq 'j' ? 'selected' : ''}"/>>전화번호</option>
+      <option value="k"<c:out value="${scri.searchType eq 'k' ? 'selected' : ''}"/>>주소</option>
+      <option value="p"<c:out value="${scri.searchType eq 'p' ? 'selected' : ''}"/>>포인트</option>
+      <option value="r"<c:out value="${scri.searchType eq 'r' ? 'selected' : ''}"/>>랭크</option>
 	</select>
 	<span class="input-group-btn pull-right">
 	<button id="searchBtn" type="button" class="btn btn-default pull-right"  >검색</button></span>
@@ -112,5 +121,6 @@ var msg = "${aaa}";
 </div>
 </div>
 </section>
+</div>
 
 <%@include file="../include/footer.jsp"%>

@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import kr.co.service.BoardService;
 import kr.co.service.ClientService;
 import kr.co.vo.PageMaker;
 import kr.co.vo.SearchCriteria;
@@ -29,6 +30,9 @@ public class ClientController {
 
 	@Autowired
 	ClientService clientService;
+	
+	@Autowired
+	BoardService boardService;
 	
 	@RequestMapping(value="/clientManage", method=RequestMethod.GET)
 	public String clientManage(Model model,@ModelAttribute("scri") SearchCriteria scri) throws Exception{
@@ -55,15 +59,15 @@ public class ClientController {
 	public String deleteClient(String memberId, Model model) throws Exception{
 		logger.info("memberId"+memberId);
 		
-		if(clientService.count(memberId) == 1) {
+		if(clientService.count(memberId) > 0) {
 		clientService.deleteClient(memberId);
 		}else {
 			logger.info("그런회원없음");
 			model.addAttribute("aaa","그런회원 없어연");
 			
-			return "/master/clientManage";
+			return "redirect:/master/clientManage";
 		}
-		return "/master/clientManage";
+		return "redirect:/master/clientManage";
 	}
 	
 	@RequestMapping(value="/disableMember",method=RequestMethod.POST)
@@ -78,9 +82,36 @@ public class ClientController {
 		
 			return "redirect:/master/clientManage";
 		}
-		return "/master/clientManage";
+		return "redirect:/master/clientManage";
 	}
 	
+	@RequestMapping(value="/boardManage", method=RequestMethod.GET)
+	public String boardManage(Model model,@ModelAttribute("scri") SearchCriteria scri) throws Exception{
+		logger.info("허리부숴진다");
+		
+		model.addAttribute("list2", boardService.list2(scri));
+		PageMaker pageMaker= new PageMaker();
+		pageMaker.setCri(scri);
+		pageMaker.setTotalCount(boardService.listCount2(scri));
+		
+		model.addAttribute("pageMaker", pageMaker);
+		
+		return "/master/boardManage";
+	}
+	@RequestMapping(value="/deleteBoard", method=RequestMethod.POST)
+	public String deleteBoard(int boardNo, Model model) throws Exception{
+		logger.info("boardNo"+boardNo);
+		
+		if(boardService.count2(boardNo) > 0) {
+		boardService.deleteBoard(boardNo);
+		}else {
+			logger.info("게시물이 없는데");
+			model.addAttribute("aaa","글삭제하고 튐");
+			
+			return "redirect:/master/clientManage";
+		}
+		return "redirect:/master/clientManage";
+	}
 
 	
 }
