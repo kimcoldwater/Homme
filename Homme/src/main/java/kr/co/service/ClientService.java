@@ -16,4 +16,6 @@ public interface ClientService {
 	public List<MemberVO> list(SearchCriteria scri) throws Exception;
 	
 	public int listCount(SearchCriteria scri) throws Exception;
+	
+
 }

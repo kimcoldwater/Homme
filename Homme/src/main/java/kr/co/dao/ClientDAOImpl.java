@@ -32,5 +32,6 @@ import kr.co.vo.SearchCriteria;
   public int listCount(SearchCriteria scri) throws Exception{
 	  return sqlSession.selectOne("ClientMapper.listCount", scri);
   }
+
 }
 

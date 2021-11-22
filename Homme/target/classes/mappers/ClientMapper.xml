@@ -44,6 +44,7 @@ select count(*) from board where b_no = #{boardNo}
 		  ,B_TITEL
 		  ,B_WRITER
 		  ,B_CATE
+		  ,B_HIT
 		FROM BOARD
 		ORDER BY B_NO DESC  
 </select>
@@ -80,11 +81,13 @@ select count(*) from board where b_no = #{boardNo}
 		  ,B_TITLE
 		  ,B_WRITER
 		  ,B_CATE
+		  ,B_HIT
 		FROM(
 		SELECT B_NO
 		  ,B_TITLE
 		  ,B_WRITER
 		  ,B_CATE
+		  ,B_HIT
 		  ,ROW_NUMBER() OVER(ORDER BY B_NO DESC) AS RNUM
 		  FROM BOARD
 		         WHERE 1=1 
@@ -129,7 +132,15 @@ select count(*) from board where b_no = #{boardNo}
 			<if test="searchType == 'b'.toString()">AND B_TITLE LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'd'.toString()">AND B_WRITER LIKE '%' || #{keyword} || '%'</if>
 			<if test="searchType == 'cate'.toString()">AND B_CATE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'hit'.toString()">AND B_HIT LIKE '%' || #{keyword} || '%'</if>
 		</if>
 	</sql>
+
+<!-- <update id="notice">
+	UPDATE BOARD
+	SET BOARD_CATE = 3
+	WHERE B_NO={#b_no}
+</update> -->
+
 
 </mapper>

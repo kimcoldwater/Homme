@@ -17,4 +17,6 @@ public interface ClientDAO {
 	
 	public int listCount(SearchCriteria scri) throws Exception;
 	
+//  public void notice(String b_No) throws Exception; 
+	
 }

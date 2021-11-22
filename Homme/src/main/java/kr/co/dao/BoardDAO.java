@@ -15,4 +15,6 @@ public interface BoardDAO {
 	public List<BoardVO> list2(SearchCriteria scri) throws Exception;
 	
 	public int listCount2(SearchCriteria scri) throws Exception;
+
+	/* public void notice(String b_No) throws Exception; */
 }

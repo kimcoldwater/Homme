@@ -114,4 +114,16 @@ public class ClientController {
 	}
 
 	
+	/*
+	 * @RequestMapping(value="/notice",method=RequestMethod.POST) public String
+	 * notice(int b_no,Model model,RedirectAttributes rttr) throws Exception{
+	 * logger.info("b_no"+b_no);
+	 * 
+	 * if(boardService.count2(b_no) == 1) { boardService.notice(b_no); } else {
+	 * logger.info("회원없음"); rttr.addFlashAttribute("aaa", "회원이 없습니다");
+	 * 
+	 * return "redirect:/master/boardManage"; } return
+	 * "redirect:/master/boardManage"; }
+	 */
+	 
 }

@@ -24,7 +24,7 @@
 		<div class="container">
 		<form role="form" method="get">
 			<table class="table table-bordered table-sm" >
-			<tr><th>글번호</th><th>제목</th><th>작성자</th><th>카테고리</th></tr>
+			<tr><th>글번호</th><th>제목</th><th>작성자</th><th>카테고리</th><th>조회수</th></tr>
 						
 	<c:forEach items="${list2}" var = "list">
 			<tr>
@@ -32,6 +32,7 @@
 				<td><c:out value="${list.b_title}" /></td>
 				<td><c:out value="${list.b_writer}" /></td>
 				<td><c:out value="${list.b_cate}" /></td>
+				<td><c:out value="${list.b_hit}" /></td>
 
 			</tr>
 	</c:forEach>
@@ -44,6 +45,7 @@
       <option value="b"<c:out value="${scri.searchType eq 'b' ? 'selected' : ''}"/>>제목</option>
       <option value="d"<c:out value="${scri.searchType eq 'd' ? 'selected' : ''}"/>>작성자</option>
       <option value="cate"<c:out value="${scri.searchType eq 'cate' ? 'selected' : ''}"/>>카테고리</option>
+      <option value="hit"<c:out value="${scri.searchType eq 'hit' ? 'selected' : ''}"/>>조회수</option>
       
 	</select>
 	<span class="input-group-btn pull-right">
@@ -63,7 +65,6 @@
 </form>
 </div>
 </section>
-<hr />
 <hr />
 
 <header>

@@ -37,4 +37,9 @@ public class BoardServiceImpl implements BoardService{
 		
 		return dao.listCount2(scri);
 	}
+	
+//	public void notice(String b_No) throws Exception {
+//		
+//		dao.notice(b_No);		
+//	}
 }

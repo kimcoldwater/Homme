@@ -33,4 +33,7 @@ public class BoardDAOImpl implements BoardDAO{
 		  return sqlSession.selectOne("ClientMapper.listCount2", scri);
 	  }
 
+//	  public void notice(String b_no) throws Exception {
+//	  sqlSession.update("ClientMapper.notice",b_No);
+//  }
 }
