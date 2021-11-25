@@ -99,8 +99,15 @@ var msg = "${aaa}";
 
 <div class="tab-pane fade in active" id="s">
 <form action="disableMember" method="post">
-
+<div class=" form-group">
 <input type="text" id="memberId" name="memberId" class="form-control" placeholder="정지할 아이디 입력"><br>
+<select name ="sectiontime">
+<option value="1">1일</option>
+<option value="7">7일</option>
+<option value="30">30일</option>
+<option value="100">100일</option>
+</select>
+</div>
 <button id="memberstop" class="btn btn-primary " type="submit" style="float: right;">정지</button>
 </form>
 </div>

@@ -1,5 +1,7 @@
 package kr.co.controller;
 
+import java.util.Map;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -69,11 +71,11 @@ public class ClientController {
 	}
 	//회원정지
 	@RequestMapping(value="/disableMember",method=RequestMethod.POST)
-	public String disableMember(String memberId,Model model,RedirectAttributes rttr) throws Exception{
+	public String disableMember(String memberId,Model model,int sectiontime,RedirectAttributes rttr) throws Exception{
 		logger.info("memberId"+memberId);
 		
 		if(clientService.count(memberId) == 1) {
-		clientService.disableMember(memberId);
+		clientService.disableMember(memberId,sectiontime);
 		} else {
 			logger.info("회원없음");
 			rttr.addFlashAttribute("aaa", "회원이 없습니다");

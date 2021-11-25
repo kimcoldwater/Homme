@@ -21,11 +21,15 @@ where B_no = #{boardNo}
 </delete>
 
 <!-- 회원정지 -->
-<!-- TO_DATE(SYSDATE + #{숫자} , 'YYYY/MM/DD') -->
-<update id="disableMember">
+<update id="disableMember" parameterType="hashmap">
 	UPDATE member
-	set (MEM_RANK = 2) = (SELECT TO_DATE(SYSDATE + #{memberCklimit} , 'YYYY/MM/DD') FROM DUAL) 
+	set MEM_RANK = 2 , MEMBER_SETIONTIME = TO_DATE(SYSDATE + #{sectionTime} , 'YYYY/MM/DD')
 	where MEM_ID = #{memberId}
+</update>
+
+<!-- 정지해제 -->
+<update id="disableCancel">
+update MEMBER set MEMBER_RANK = 1 where MEMBER_ID = #{memberId}
 </update>
 
 <!-- 회원정렬 -->
@@ -33,10 +37,12 @@ where B_no = #{boardNo}
 select count(*) from member where mem_id = #{memberId}
 </select>
 
+<!-- 공지사항 정렬 -->
 <select id="icount" resultType="int">
 select count(*) from item where item_id = #{itemId}
 </select>
 
+<!-- 게시판 정렬 -->
 <select id="count2" resultType="int">
 select count(*) from board where b_no = #{boardNo}
 </select>

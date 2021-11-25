@@ -1,7 +1,9 @@
 
  package kr.co.dao;
   
-  import java.util.List;
+  import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession; import
   org.springframework.beans.factory.annotation.Autowired; import
@@ -21,8 +23,11 @@ import kr.co.vo.SearchCriteria;
   sqlSession.delete("ClientMapper.deleteClient", memberId); 
   }
   //회원 정지
-  public void disableMember(String memberId) throws Exception {
-  sqlSession.update("ClientMapper.disableMember",memberId);
+  public void disableMember(String memberId,int sectiontime) throws Exception {
+	  Map<String, Object> map = new HashMap<String, Object>();
+	  map.put("memberId", memberId);
+	  map.put("sectiontime", sectiontime);
+  sqlSession.update("ClientMapper.disableMember",map);
   
   }
   //회원 조회

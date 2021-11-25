@@ -1,6 +1,7 @@
 package kr.co.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,8 +26,8 @@ public class ClientServiceImpl implements ClientService{
 		
 	}
 	//회원정지
-	public void disableMember(String memberId) throws Exception {
-		dao.disableMember(memberId);
+	public void disableMember(String memberId,int sectiontime) throws Exception {
+		dao.disableMember(memberId,sectiontime);
 		
 	}
 	//회원조회
@@ -34,7 +35,7 @@ public class ClientServiceImpl implements ClientService{
 		return dao.count(memberId);
 		
 	}
-	//회원리스트	목록
+	//회원리스트 목록
 	@Override
 	public List<MemberVO> list(SearchCriteria scri) throws Exception{
 		

@@ -1,6 +1,7 @@
 package kr.co.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.vo.CouponVO;
 import kr.co.vo.ItemSearchCriteria;
@@ -12,7 +13,7 @@ public interface ClientDAO {
 	//(관리자)회원삭제
 	public void deleteClient(String memberId) throws Exception;
 	//(관리자)회원정지
-	public void disableMember(String memberId) throws Exception;
+	public void disableMember(String memberId,int sectiontime) throws Exception;
 	//(관리자)회원조회
 	public int count(String memberId) throws Exception;
 	//(관리자)회원목록
@@ -37,5 +38,6 @@ public interface ClientDAO {
 	public void deletecoupon(String cpnName)throws Exception;
 	//쿠폰생성
 	public void newcoupon(CouponVO vo) throws Exception;
+
 	
 }

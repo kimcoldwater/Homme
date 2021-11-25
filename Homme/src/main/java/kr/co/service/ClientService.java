@@ -1,6 +1,7 @@
 package kr.co.service;
 
 import java.util.List;
+import java.util.Map;
 
 import kr.co.vo.CouponVO;
 import kr.co.vo.ItemSearchCriteria;
@@ -12,7 +13,7 @@ public interface ClientService {
 	//회원삭제
 	public void deleteClient(String memberId) throws Exception;
 	//회원 정지
-	public void disableMember(String memberId) throws Exception;
+	public void disableMember(String memberId,int sectiontime) throws Exception;
 	//회원 조회
 	public int count(String memberId) throws Exception;
 	//회원 리스트목록
@@ -37,4 +38,5 @@ public interface ClientService {
 	public int coucount(String cpnName)throws Exception;
 	//쿠폰생성
 	public void newcoupon(CouponVO vo)throws Exception;
+
 }
