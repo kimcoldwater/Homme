@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MainMapper">
+
+	<select id="itemList" resultType="kr.co.vo.ItemVO"
+		parameterType="kr.co.vo.ItemCriteria">
+		SELECT ITEM_NO , ITEM_NAME , ITEM_PRICE , ITEM_SIZE, ITEM_COLOR,
+		ITEM_DISC, ITEM_CONTENT
+		, ITEM_IMGMAIN, ITEM_IMGSUB, ITEM_DATE,
+		ITEM_STAR, ITEM_CATEMAIN,
+		ITEM_CATESUB
+		FROM (
+		SELECT ITEM_NO , ITEM_NAME
+		, ITEM_PRICE , ITEM_SIZE, ITEM_COLOR, ITEM_DISC,
+		ITEM_CONTENT
+		,
+		ITEM_IMGMAIN, ITEM_IMGSUB,ITEM_DATE, ITEM_STAR, ITEM_CATEMAIN,
+		ITEM_CATESUB,
+		ROW_NUMBER() OVER(
+		<include refid="sort" />
+		) AS RNUM
+		FROM ITEM
+		WHERE ITEM_CATEMAIN =
+		<include refid="catemain" />
+		AND
+		ITEM_CATESUB =
+		<include refid="catesub" />
+		)
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		<include refid="sort" />
+
+	</select>
+
+	<select id="itemCount" resultType="int">
+<![CDATA[
+SELECT COUNT(*) FROM ITEM WHERE ITEM_NO > 0
+]]>
+	</select>
+
+
+	<!-- 정렬 -->
+	<sql id="sort">
+		<if test="sort == '' ">
+			ORDER BY ITEM_NO DESC
+		</if>
+
+		<if test="sort == 'no' ">
+			ORDER BY ITEM_NO DESC
+		</if>
+
+		<if test="sort == 'pricedesc' ">
+			ORDER BY ITEM_PRICE DESC
+		</if>
+
+		<if test="sort == 'priceasc' ">
+			ORDER BY ITEM_PRICE ASC
+		</if>
+
+	</sql>
+
+	<!-- 메인카테고리 -->
+	<sql id="catemain">
+		<if test="catemain == ''">
+			'item'
+		</if>
+		<if test="catemain == 'item'">
+			'item'
+		</if>
+		<if test="catemain == 'main'">
+			'main'
+		</if>
+		<if test="catemain == 'popular'">
+			'popular'
+		</if>
+	</sql>
+
+	<!-- 서브카테고리 -->
+	<sql id="catesub">
+		<if test="catesub == 'outer' ">
+			'jumper' OR ITEM_CATESUB = 'coat' OR ITEM_CATESUB =
+			'jacket' OR ITEM_CATESUB
+			= 'padding'
+		</if>
+		<if test="catesub == 'top' ">
+			'long' OR ITEM_CATESUB = 'knit' OR ITEM_CATESUB =
+			'halftee' OR ITEM_CATESUB
+			= 'shirts' OR ITEM_CATESUB = 'blank'
+		</if>
+		<if test="catesub == 'bottom' ">
+			'pants' OR ITEM_CATESUB = 'denim' OR ITEM_CATESUB =
+			'halfpants' OR
+			ITEM_CATESUB = 'jogger' OR ITEM_CATESUB = 'sult'
+		</if>
+		<if test="catesub == 'shoes' ">
+			'sneakers' OR ITEM_CATESUB = 'boots' OR ITEM_CATESUB =
+			'walker'
+			OR ITEM_CATESUB = 'derby' OR ITEM_CATESUB = 'sandal'
+		</if>
+		<if test="catesub == 'jumper'">
+			'jumper'
+		</if>
+		<if test="catesub == 'coat'">
+			'coat'
+		</if>
+		<if test="catesub == 'jacket'">
+			'jacket'
+		</if>
+		<if test="catesub == 'padding'">
+			'padding'
+		</if>
+		<if test="catesub == 'long'">
+			'long'
+		</if>
+		<if test="catesub == 'knit'">
+			'knit'
+		</if>
+		<if test="catesub == 'halftee'">
+			'halftee'
+		</if>
+		<if test="catesub == 'shirts'">
+			'shirts'
+		</if>
+		<if test="catesub == 'blank'">
+			'blank'
+		</if>
+		<if test="catesub == 'pants'">
+			'pants'
+		</if>
+		<if test="catesub == 'denim'">
+			'denim'
+		</if>
+		<if test="catesub == 'halfpants'">
+			'halfpants'
+		</if>
+		<if test="catesub == 'jogger'">
+			'jogger'
+		</if>
+		<if test="catesub == 'sult'">
+			'sult'
+		</if>
+		<if test="catesub == 'sneakers'">
+			'sneakers'
+		</if>
+		<if test="catesub == 'boots'">
+			'boots'
+		</if>
+		<if test="catesub == 'walker'">
+			'walker'
+		</if>
+		<if test="catesub == 'derby'">
+			'derby'
+		</if>
+		<if test="catesub == 'sandal'">
+			'sandal'
+		</if>
+	</sql>
+
+	<!-- 상품내용 -->
+	<select id="itemContent" resultType="kr.co.vo.ItemVO">
+		SELECT ITEM_NO , ITEM_NAME ,
+		ITEM_PRICE , ITEM_SIZE, ITEM_COLOR, ITEM_DISC,
+		ITEM_CONTENT,
+		ITEM_SUBCONTENT
+		, ITEM_IMGMAIN, ITEM_IMGSUB, ITEM_DATE, ITEM_STAR,
+		ITEM_CATEMAIN,
+		ITEM_CATESUB , ITEM_MODEL FROM
+		ITEM WHERE ITEM_NO =
+		#{item_no}
+
+	</select>
+
+	<!-- 상품옵션 -->
+	<select id="itemOption" resultType="kr.co.vo.ItemVO">
+		SELECT OPTION_NO,
+		OPTION_CONTENT , OPTION_ITEM_NO , OPTION_VOL FROM ITEMOPTION WHERE
+		OPTION_ITEM_NO = #{item_no}
+	</select>
+
+	<!-- 장바구니 등록 -->
+	<insert id="cartInsert">
+		INSERT INTO CART (CART_NO , CART_CKID , CART_ITEM_NO
+		, CART_CKLIMIT , CART_OPTION_CONTENT , CART_OPTION_NO
+		)VALUES(
+		(SELECT
+		NVL(MAX(CART_NO), 0) + 1 FROM CART) , #{cart_ckid} , #{cart_item_no}
+		,
+		SYSDATE , #{cart_option_content} , #{cart_option_no}
+		)
+
+	</insert>
+
+	<!-- 삭제 -->
+	<delete id="cartDelete">
+		DELETE FROM CART WHERE CART_NO = ${cart_no}
+	</delete>
+
+	<!-- 전체삭제 비회원 -->
+	<delete id="cartDeleteCk">
+		DELETE FROM CART WHERE CART_CKID = ${cart_ckid}
+	</delete>
+
+	<!-- 전체삭제 회원 -->
+	<delete id="cartDeleteMem">
+		DELETE FROM CART WHERE CART_MEM_NO = ${cart_mem_no}
+	</delete>
+
+	<!-- 상품주문 -->
+	<insert id="orderedInsert">
+		INSERT INTO ORDERED (ORDERED_NO , ORDERED_MEM_NO , ORDERED_NAME , ORDERED_)
+	</insert>
+
+	<select id="cartList" resultType="kr.co.vo.CartVO">
+		select a.cart_no, a.cart_option_no, a.cart_option_content, b.item_no,
+		b.item_name , b.item_price ,b.item_imgmain
+		from cart a left outer join item b on a.cart_item_no = b.item_no where
+		<if test="cart_mem_no == 0">
+			cart_ckid = #{cart_ckid}
+		</if>
+		<if test="cart_mem_no != 0">
+			cart_mem_no = #{cart_mem_no}
+		</if>
+	</select>
+	
+</mapper>

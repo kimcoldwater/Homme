@@ -5,7 +5,18 @@ public class Criteria {
 	private int perPageNum;
 	private int rowStart;
 	private int rowEnd;
+	private String sort;
 	
+	
+	
+	public String getSort() {
+		return sort;
+	}
+
+	public void setSort(String sort) {
+		this.sort = sort;
+	}
+
 	public Criteria() {
 		this.page = 1;
 		this.perPageNum = 10;
@@ -49,10 +60,11 @@ public class Criteria {
 		return rowEnd;
 	}
 
+
 	@Override
 	public String toString() {
 		return "Criteria [page=" + page + ", perPageNum=" + perPageNum + ", rowStart=" + rowStart + ", rowEnd=" + rowEnd
-				+ "]";
+				+ ", sort=" + sort + "]";
 	}
 	
 	

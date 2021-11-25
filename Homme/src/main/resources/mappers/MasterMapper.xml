@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MasterMapper">
+
+	<insert id="itemInsert" parameterType="kr.co.vo.ItemVO"
+		useGeneratedKeys="true" keyProperty="item_no">
+		<selectKey keyProperty="item_no" resultType="int" order="BEFORE">
+			SELECT
+			ITEM_SEQ.NEXTVAL FROM DUAL
+		</selectKey>
+
+		INSERT INTO ITEM (ITEM_NO , ITEM_NAME , ITEM_PRICE , ITEM_SIZE, ITEM_COLOR, 
+		 ITEM_CONTENT, ITEM_CATEMAIN, ITEM_CATESUB, ITEM_SUBCONTENT, ITEM_MODEL
+		) VALUES (
+		#{item_no} ,
+		#{item_name},
+		#{item_price},
+		#{item_size},
+		#{item_color},
+		#{item_content},
+		#{item_catemain},
+		#{item_catesub},
+		#{item_subcontent},
+		#{item_model}
+		)
+	</insert>
+	
+	<insert id="itemOptionInsert" >
+	INSERT INTO ITEMOPTION (OPTION_NO, OPTION_CONTENT, OPTION_ITEM_NO , OPTION_VOL 
+	)VALUES(
+	(SELECT NVL(MAX(OPTION_NO), 0) + 1 FROM ITEMOPTION) , #{item_option} , #{item_no} , #{item_vol}
+	)
+	</insert>
+
+	<update id="itemMainImg">
+	update item set ITEM_IMGMAIN = #{IMG_STRNAME} where ITEM_NO = #{ITEM_NO}
+	</update>
+	
+	<update id="itemSubImg">
+	update item set ITEM_IMGSUB = #{IMG_STRNAME} where ITEM_NO = #{ITEM_NO}
+	</update>
+
+	<insert id="itemMainFile">
+	insert into IMG (IMG_NO , IMG_ORGNAME , IMG_STRNAME , IMG_SIZE , IMG_ITEM_NO
+	)VALUES(
+	(SELECT NVL(MAX(IMG_NO), 0) + 1 FROM IMG), #{IMG_ORGNAME}, #{IMG_STRNAME} , #{IMG_SIZE} , #{ITEM_NO}
+	)
+	</insert>
+	
+</mapper>

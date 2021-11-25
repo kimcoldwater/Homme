@@ -1,8 +1,160 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="BoardMapper">
-
-<insert id="insert">
-insert into BOARD (MEM_NO , MEM_ID) values (1,'ds')
+<!-- 게시판 작성 -->
+<insert id="insert" parameterType="kr.co.vo.BoardVO"
+      useGeneratedKeys="true" keyProperty="b_no">
+          <selectKey keyProperty="b_no" resultType="int" order="BEFORE">
+         SELECT
+         BOARD_SEQ.NEXTVAL FROM DUAL
+      </selectKey>
+	INSERT INTO BOARD(  B_NO,
+						B_TITLE,
+						B_CONTENT,
+						B_WRITER,
+						B_CATE
+									)
+				VALUES( #{b_no},
+						#{b_title},
+						#{b_content},
+						#{b_writer},
+						#{b_cate}
+									)
 </insert>
+<!-- 게시판 목록 -->
+	<select id="boardlist" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.SearchCriteria">
+			SELECT  B_NO,
+					B_TITLE,
+					B_CONTENT,
+					B_WRITER,
+					B_DATE,
+					B_HIT
+				FROM (
+					SELECT B_NO,
+						   B_TITLE,
+						   B_CONTENT,
+						   B_WRITER,
+						   B_DATE,
+						   B_HIT,
+						   B_CATE,
+						   ROW_NUMBER() OVER(
+							<include refid="sort"/>) AS RNUM
+					FROM BOARD 
+					WHERE 1=1
+					<include refid="search"></include>
+					<include refid="category"></include>
+					<!-- <include refid="sort"></include> -->
+								)
+				WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+				<include refid="sortt"/>				
+	</select>
+	<!-- 게시판 멀티 정렬 -->
+	<sql id = "sort">
+		<if test="sort == null ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == '' ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == 'b_no' ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == 'b_hit' ">
+		ORDER BY B_HIT DESC
+		</if>
+		<if test="sort == 'b_date' ">
+		ORDER BY B_DATE DESC
+		</if>
+		</sql>
+		<sql id = "sortt">
+		<if test="sort == null ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == '' ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == 'b_no' ">
+		ORDER BY B_NO DESC
+		</if>
+		<if test="sort == 'b_hit' ">
+		ORDER BY B_HIT DESC
+		</if>
+		<if test="sort == 'b_date' ">
+		ORDER BY B_DATE DESC
+		</if>
+		</sql>  
+
+<!-- 게시판 검색 및 페이징 -->
+	<select id="listCount" resultType="int">
+			SELECT COUNT(B_NO)
+				FROM BOARD
+				WHERE 1=1
+				<include refid="search"></include>
+			 AND B_NO > 0
+	</select>
+<!-- 카테고리 -->
+	<sql id = "category">
+		<if test="cate != null">
+			<if test="cate == 1">AND B_CATE = 1</if>
+			<if test="cate == 2">AND B_CATE = 2</if>
+			<if test="cate == 3">AND B_CATE = 3</if>
+			<if test="cate == 4">AND B_CATE = 4</if>
+		</if>
+		</sql>
+		
+		
+		<sql id= "search">
+		<if test="searchType != null">
+			<if test="searchType == 't'.toString()">AND B_TITLE LIKE '%' || #{keyword}|| '%'</if>
+			<if test="searchType == 'c'.toString()">AND B_CONTENT LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'w'.toString()">AND B_WRITER LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'tc'.toString()">AND (B_TITLE LIKE '%' || #{keyword} || '%') or (B_CONTENT LIKE '%' || #{keyword} || '%')</if>
+		</if>
+	</sql>
+	
+	
+		<select id="boardview" parameterType="int" resultType="kr.co.vo.BoardVO">
+			SELECT  B_NO,
+					B_TITLE,
+					B_WRITER,
+					B_DATE,
+					B_CONTENT
+				FROM BOARD
+				WHERE B_NO = #{b_no}					
+	</select>
+<!-- 게시판 수정 -->
+	<update id="update" parameterType="kr.co.vo.BoardVO">
+		UPDATE BOARD
+			SET B_TITLE = #{b_title},
+				B_CONTENT = #{b_content}
+		 WHERE B_NO = #{b_no}
+	</update>
+<!-- 게시판 삭제 -->
+	<delete id="delete" parameterType="int">
+		DELETE
+			FROM BOARD
+		 WHERE B_NO = #{b_no}
+	</delete>
+<!-- 게시판 조회수 -->
+	<update id="boardHit" parameterType="int">
+		UPDATE BOARD 
+		SET	B_HIT = B_HIT+1
+		WHERE B_NO = #{b_no}	
+	</update>
+<!-- 파일 첨부 -->
+	<insert id="insertFile" parameterType="hashMap">
+		INSERT INTO IMG(
+			IMG_NO,
+			IMG_B_NO,
+			IMG_ORGNAME,
+			IMG_STRNAME,
+			IMG_SIZE
+		)VALUES(
+		(SELECT NVL(MAX(IMG_NO), 0) + 1 FROM IMG),
+			#{IMG_B_NO},
+			#{IMG_ORGNAME},
+			#{IMG_STRNAME},
+			#{IMG_SIZE}
+		)
+	</insert>
 </mapper>

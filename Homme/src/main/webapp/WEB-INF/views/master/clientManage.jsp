@@ -40,14 +40,14 @@ var msg = "${aaa}";
 						
 	<c:forEach items="${list}" var = "list">
 			<tr>
-				<td><c:out value="${list.mem_no}" /></td>
-				<td><c:out value="${list.mem_id}" /></td>
-				<td><c:out value="${list.mem_name}" /></td>
-				<td><c:out value="${list.mem_email}" /></td>
-				<td><c:out value="${list.mem_tel}"/></td>
-				<td><c:out value="${list.mem_adr}"/></td>
-				<td><c:out value="${list.mem_point}"/></td>
-				<td><c:out value="${list.mem_rank}"/></td>
+				<td><c:out value="${list.MEM_NO}" /></td>
+				<td><c:out value="${list.MEM_ID}" /></td>
+				<td><c:out value="${list.MEM_NAME}" /></td>
+				<td><c:out value="${list.MEM_EMAIL}" /></td>
+				<td><c:out value="${list.MEM_TEL}"/></td>
+				<td><c:out value="${list.MEM_ADR}"/></td>
+				<td><c:out value="${list.MEM_POINT}"/></td>
+				<td><c:out value="${list.MEM_RANK}"/></td>
 			</tr>
 	</c:forEach>
 						

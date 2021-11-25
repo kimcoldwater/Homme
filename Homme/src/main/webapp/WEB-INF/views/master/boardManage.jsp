@@ -3,7 +3,13 @@
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+<!-- <script type="text/javascript">
+if(${nlist == null}){
+alert("d널"); 
+}else if (${nlist != null}){
+	alert("널아님");
+}
+</script> -->
 <%@include file="../include/header.jsp"%>
 
      <div class="main">
@@ -22,10 +28,19 @@
 	<hr />			
 	<section id="container">
 		<div class="container">
-		<form role="form" method="get">
+		<form role="form" method="get" action="/master">
 			<table class="table table-bordered table-sm" >
-			<tr><th>글번호</th><th>제목</th><th>작성자</th><th>카테고리</th><th>조회수</th></tr>
-						
+			<tr><th>글번호</th><th>제목</th><th>작성자</th><th>카테고리</th><th>조회수</th><th>공지사항 등록</th></tr>
+	<c:forEach items="${nlist}" var = "list">
+	<tr>
+				<td><c:out value="${list.b_no}" /></td>
+				<td><c:out value="[공지] ${list.b_title}"  /></td>
+				<td><c:out value="${list.b_writer}" /></td>
+				<td><c:out value="${list.b_cate}" /></td>
+				<td><c:out value="${list.b_hit}" /></td>
+				<td><input type="button" onclick="location.href='/master/down?boardNo=${list.b_no}'" value="공지사항 해제"></td>
+	</tr>	
+	</c:forEach>	 			
 	<c:forEach items="${list2}" var = "list">
 			<tr>
 				<td><c:out value="${list.b_no}" /></td>
@@ -33,6 +48,7 @@
 				<td><c:out value="${list.b_writer}" /></td>
 				<td><c:out value="${list.b_cate}" /></td>
 				<td><c:out value="${list.b_hit}" /></td>
+				<td><input type="button" onclick="location.href='/master/notice?boardNo=${list.b_no}'" value="공지사항 설정"></td>
 
 			</tr>
 	</c:forEach>
@@ -79,24 +95,11 @@
 <hr class="divider-w mt-10 mb-20">
 <div role="tabpanel">
 <ul class="nav nav-tabs font-alt" role="tablist">
-  <!-- <li class="nav-item">
-    <a class="nav-link active" data-toggle="tab" href="#u">공지사항 등록</a>
-  </li> -->
   <li class="nav-item">
     <a class="nav-link" data-toggle="tab" href="#x">게시글 삭제</a>
   </li>
 </ul>
 <div class="tab-content">
-
-<!-- <div class="tab-pane fade in active" id="u">
- <form action="disableMember" method="post">
-
-<input type="text" id="boardcate" name="boardcate" class="form-control" placeholder="정지할 아이디 입력"><br>
-<button id="memberstop" class="btn btn-primary " type="submit" style="float: right;">정지</button>
-</form>
-</div>  -->
-
-
 
 <div class="tab-pane fade" id="x">
 <form action="deleteBoard" method="post">

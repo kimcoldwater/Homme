@@ -75,5 +75,10 @@ public class BoardVO {
 	public void setB_cate(int b_cate) {
 		this.b_cate = b_cate;
 	}
-	
+	@Override
+	public String toString() {
+		return "BoardVO [b_no=" + b_no + ", b_title=" + b_title + ", b_content=" + b_content + ", b_writer=" + b_writer
+				+ ", b_mem_no=" + b_mem_no + ", b_date=" + b_date + ", b_count=" + b_count + ", b_notice=" + b_notice
+				+ ", b_hit=" + b_hit + ", b_cate=" + b_cate + "]";
+	}
 }

@@ -23,13 +23,40 @@
     <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
          <property name="dataSource" ref="dataSource"></property>
          <property name="configLocation" value="classpath:/mybatis-config.xml"></property>
-         <property name="mapperLocations" value="classpath*:mappers/**/*Mapper.xml"/>
+         <property name="mapperLocations" value="classpath:mappers/**/*Mapper.xml"/>
     </bean>
     
     <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate" destroy-method="clearCache">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"></constructor-arg>
     </bean>
 
+  <!-- gmail설정 -->
+	<bean id="mailSender2" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+     <property name="host" value="smtp.gmail.com" />
+     <property name="port" value="587" />
+ 	<property name="username" value="rinkim98@gmail.com"/> <!-- 자신의 이메일 아이디 -->
+ 	<property name="password" value="dkqjwl12!"/> <!-- 자신의 비밀번호 -->
+ <!-- email 요청시는 SMTP -->
+      <property name="javaMailProperties">
+         <props>
+            <prop key="mail.transport.protocol">smtp</prop>
+            <prop key="mail.smtp.auth">true</prop>
+            <prop key="mail.smtp.starttls.enable">true</prop>
+            <prop key="mail.debug">true</prop>
+            <prop key="mail.smtp.ssl.trust">smtp.gmail.com</prop>
+			<prop key="mail.smtp.ssl.protocols">TLSv1.2</prop>
+         </props>
+      </property>
+   </bean>
+
+
+	<!-- 트랜젝션 매니저 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource"></property>
+	</bean>
+	
+	<!-- @Transactional 애노테이션을 sacn하기 위한 설정 -->
+	<tx:annotation-driven/>
 	
 		
 </beans>

@@ -2,28 +2,48 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ClientMapper">
 
+<!-- 회원삭제 -->
 <delete id="deleteClient">
 delete from MEMBER 
 where mem_id = #{memberId}
 </delete>
 
+<!-- 상품삭제 -->
+<delete id="deleteItem">
+delete from ITEM 
+where item_id = #{itemId}
+</delete>
+
+<!-- 게시물삭제 -->
 <delete id="deleteBoard">
 delete from BOARD 
 where B_no = #{boardNo}
 </delete>
 
+<!-- 회원정지 -->
+<!-- TO_DATE(SYSDATE + #{숫자} , 'YYYY/MM/DD') -->
 <update id="disableMember">
 	UPDATE member
-	set MEM_RANK = 2
+	set (MEM_RANK = 2) = (SELECT TO_DATE(SYSDATE + #{memberCklimit} , 'YYYY/MM/DD') FROM DUAL) 
 	where MEM_ID = #{memberId}
 </update>
 
+<!-- 회원정렬 -->
 <select id="count" resultType="int">
 select count(*) from member where mem_id = #{memberId}
 </select>
 
+<select id="icount" resultType="int">
+select count(*) from item where item_id = #{itemId}
+</select>
+
 <select id="count2" resultType="int">
 select count(*) from board where b_no = #{boardNo}
+</select>
+
+<!-- 쿠폰정렬 -->
+<select id="coucount" resultType="int">
+select count(*) from coupon where cpn_no = #{cpnNo}
 </select>
 
 <select id="list" resultType="kr.co.vo.MemberVO">
@@ -39,6 +59,23 @@ select count(*) from board where b_no = #{boardNo}
 		ORDER BY MEM_ID DESC  
 </select>
 
+<select id="ilist" resultType="kr.co.vo.ItemVO">
+	SELECT ITEM_NO
+		  ,ITEM_NAME
+		  ,ITEM_PRICE
+		  ,ITEM_SIZE
+		  ,ITEM_COLOR
+		  ,ITEM_VOL
+		  ,ITEM_IMGMAIN
+		  ,ITEM_DISC
+		  ,ITEM_CONTENT
+		  ,ITEM_STAR
+		  ,ITEM_CATEMAIN
+		  ,ITEM_CATESUB
+		FROM ITEM
+		ORDER BY ITEM_NO DESC  
+</select>
+
 <select id="list2" resultType="kr.co.vo.BoardVO">
 	SELECT B_NO
 		  ,B_TITEL
@@ -47,6 +84,17 @@ select count(*) from board where b_no = #{boardNo}
 		  ,B_HIT
 		FROM BOARD
 		ORDER BY B_NO DESC  
+</select>
+
+<!-- 쿠폰 리스트 -->
+<select id="coulist" resultType="kr.co.vo.CouponVO">
+	SELECT cpn_no
+		  ,cpn_mem_no
+		  ,cpn_name
+		  ,cpn_disc
+		  ,cpn_edate
+		FROM COUPON
+		ORDER BY cpn_no DESC  
 </select>
 
 <select id="listPage" resultType="kr.co.vo.MemberVO" parameterType="kr.co.vo.SearchCriteria">
@@ -76,6 +124,42 @@ select count(*) from board where b_no = #{boardNo}
 		ORDER BY MEM_NO DESC
 </select>
 
+<select id="ilistPage" resultType="kr.co.vo.ItemVO" parameterType="kr.co.vo.ItemSearchCriteria">
+	SELECT ITEM_NO
+		  ,ITEM_NAME
+		  ,ITEM_PRICE
+		  ,ITEM_SIZE
+		  ,ITEM_COLOR
+		  ,ITEM_VOL
+		  ,ITEM_IMGMAIN
+		  ,ITEM_DISC
+		  ,ITEM_CONTENT
+		  ,ITEM_STAR
+		  ,ITEM_CATEMAIN
+		  ,ITEM_CATESUB
+		FROM (
+		SELECT
+		  ITEM_NO
+		  ,ITEM_NAME
+		  ,ITEM_PRICE
+		  ,ITEM_SIZE
+		  ,ITEM_COLOR
+		  ,ITEM_VOL
+		  ,ITEM_IMGMAIN
+		  ,ITEM_DISC
+		  ,ITEM_CONTENT
+		  ,ITEM_STAR
+		  ,ITEM_CATEMAIN
+		  ,ITEM_CATESUB
+		  ,ROW_NUMBER() OVER(ORDER BY ITEM_NO DESC) AS RNUM
+		  FROM ITEM
+		         WHERE 1=1 
+		         	<include refid="isearch"></include>
+		)MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY ITEM_NO DESC
+</select>
+
 <select id="listPage2" resultType="kr.co.vo.BoardVO" parameterType="kr.co.vo.SearchCriteria">
 	SELECT B_NO
 		  ,B_TITLE
@@ -97,22 +181,65 @@ select count(*) from board where b_no = #{boardNo}
 		ORDER BY B_NO DESC
 </select>
 
+<!-- 쿠폰리스트페이지 -->
+<select id="coulistPage" resultType="kr.co.vo.CouponVO" parameterType="kr.co.vo.SearchCriteria">
+	SELECT cpn_no
+		  ,cpn_mem_no
+		  ,cpn_name
+		  ,cpn_disc
+		  ,cpn_edate		  
+		FROM(
+		SELECT cpn_no
+		  ,cpn_mem_no
+		  ,cpn_name
+		  ,cpn_disc
+		  ,cpn_edate
+		  ,ROW_NUMBER() OVER(ORDER BY cpn_no DESC) AS RNUM
+		  FROM COUPON
+		         WHERE 1=1 
+		         	<include refid="cousearch"></include>
+		)MP
+		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
+		ORDER BY cpn_no DESC
+</select>
+
+<!-- 회원목록정렬  -->
 <select id="listCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
 		SELECT COUNT(MEM_NO)
 		   FROM MEMBER
 		   WHERE 1=1
 		<include refid="search"></include>	
 		   AND MEM_NO > 0
-	</select>
+</select>
 	
+<!-- 상품목록정렬 -->	
+<select id="ilistCount" parameterType="kr.co.vo.ItemSearchCriteria" resultType="int">
+		SELECT COUNT(ITEM_NO)
+		   FROM ITEM
+		   WHERE 1=1
+		<include refid="isearch"></include>	
+		   AND ITEM_NO > 0
+</select>	
+
+<!-- 게시판정렬 -->	
 <select id="listCount2" parameterType="kr.co.vo.SearchCriteria" resultType="int">
 		SELECT COUNT(B_NO)
 		   FROM BOARD
 		   WHERE 1=1
 		<include refid="search2"></include>	
 		   AND B_NO > 0
-	</select>	
+	</select>
 
+<!-- 쿠폰정렬  -->
+<select id="coulistCount" parameterType="kr.co.vo.SearchCriteria" resultType="int">
+		SELECT COUNT(cpn_no)
+		   FROM coupon
+		   WHERE 1=1
+		<include refid="cousearch"></include>	
+		   AND cpn_no > 0
+</select>
+		
+<!-- 회원 검색바 -->
 <sql id="search">
 		<if test="searchType != null">
 			<if test="searchType == 'n'.toString()">AND MEM_NO LIKE '%' || #{keyword} || '%'</if>
@@ -126,6 +253,30 @@ select count(*) from board where b_no = #{boardNo}
 		</if>
 	</sql>
 
+<!-- 회원 검색바 -->
+<sql id="cousearch">
+		<if test="searchType != null">
+			<if test="searchType == 'couno'.toString()">AND cpn_no LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'couname'.toString()">AND cpn_name LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'coudisc'.toString()">AND cpn_disc LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'couedate'.toString()">AND cpn_edate LIKE '%' || #{keyword} || '%'</if>			
+		</if>
+	</sql>
+
+<!-- 공지사항 검색바 -->	
+<sql id="isearch">
+		<if test="searchType != null">
+			<if test="searchType == 'itemno'.toString()">AND ITEM_NO LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemname'.toString()">AND ITEM_NAME LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemprice'.toString()">AND ITEM_PRICE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemsize'.toString()">AND ITEM_SIZE LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemcolor'.toString()">AND ITEM_COLOR LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemvol'.toString()">AND ITEM_VOL LIKE '%' || #{keyword} || '%'</if>
+			<if test="searchType == 'itemlike'.toString()">AND ITEM_STAR LIKE '%' || #{keyword} || '%'</if>
+		</if>
+	</sql>
+		
+<!-- 게시판 검색바 -->
 <sql id="search2">
 		<if test="searchType != null">
 			<if test="searchType == 'a'.toString()">AND B_NO LIKE '%' || #{keyword} || '%'</if>
@@ -135,12 +286,63 @@ select count(*) from board where b_no = #{boardNo}
 			<if test="searchType == 'hit'.toString()">AND B_HIT LIKE '%' || #{keyword} || '%'</if>
 		</if>
 	</sql>
+	
+<!-- 공지사항리스트 -->
+<select id="nlist" resultType="kr.co.vo.BoardVO">
+SELECT B_NO
+	  ,B_TITLE
+	  ,B_WRITER
+	  ,B_CATE
+	  ,B_HIT
+	  FROM BOARD
+	  WHERE B_CATE = 1 AND B_NOTICE ='Y'
+	  ORDER BY B_NO DESC
+	  
+</select>
 
-<!-- <update id="notice">
-	UPDATE BOARD
-	SET BOARD_CATE = 3
-	WHERE B_NO={#b_no}
-</update> -->
+<!-- 공지사항 등록 -->
+<update id="notice">
+UPDATE BOARD
+SET B_NOTICE = 'Y'
+WHERE B_NO = #{b_no}
+</update>
+
+<!-- 공지사항 내리기 -->
+<update id="down">
+UPDATE BOARD
+SET B_NOTICE = 'N'
+WHERE B_NO = #{b_no}
+</update>
+
+<!-- 쿠폰등록  -->
+<insert id="newcoupon">
+INSERT INTO COUPON(
+		   ,cpn_no		   
+		   ,cpn_name
+		   ,cpn_disc
+		   ,cpn_name
+		   )VALUES(
+		   (SELECT
+        NVL(MAX(cpn_no), 0) + 1 FROM COUPON)		   
+		   #{cpn_name} ,
+		   #{cpn_disc} ,
+		   #{cpn_edate} 
+		   )		   
+</insert>
+
+<!-- 쿠폰 삭제  -->
+<delete id="deletecoupon">
+delete from coupon
+where cpn_name = #{cpnName}
+</delete>
+
+<!-- 적립금 -->
+<update id="newpoint">
+UPDATE member set mem_point = mem_point + #{mem_point} 
+where mem_no = #{mem_id}
+</update>
+
+
 
 
 </mapper>

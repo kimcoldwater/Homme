@@ -3,62 +3,114 @@ package kr.co.vo;
 import java.util.Date;
 
 public class MemberVO {
-
-	private int mem_no;
-	private String mem_id;
-	private String mem_name;
-	private String mem_email;
-	private int mem_tel;
-	private String mem_adr;
-	private int mem_point;
-	private int mem_rank;
-	public int getMem_no() {
-		return mem_no;
+	private int MEM_NO;
+	private String MEM_ID;
+	private String MEM_PW;
+	private String MEM_NAME; 
+	private String MEM_POST;
+	private String MEM_ADR;
+	private String MEM_TEL;
+	private String MEM_EMAIL; 
+	private Date MEM_REGDATE;
+	private int MEM_POINT; 
+	private boolean useCookie;
+	private String MEM_CKID; 
+	private Date MEM_CKLIMIT;
+	private String MEM_COUPON;
+	private String MEM_RANK;
+	
+	
+	
+	public String getMEM_RANK() {
+		return MEM_RANK;
 	}
-	public void setMem_no(int mem_no) {
-		this.mem_no = mem_no;
+	public void setMEM_RANK(String mEM_RANK) {
+		MEM_RANK = mEM_RANK;
 	}
-	public String getMem_id() {
-		return mem_id;
+	public int getMEM_NO() {
+		return MEM_NO;
 	}
-	public void setMem_id(String mem_id) {
-		this.mem_id = mem_id;
+	public void setMEM_NO(int mEM_NO) {
+		MEM_NO = mEM_NO;
 	}
-	public String getMem_name() {
-		return mem_name;
+	public String getMEM_ID() {
+		return MEM_ID;
 	}
-	public void setMem_name(String mem_name) {
-		this.mem_name = mem_name;
+	public void setMEM_ID(String mEM_ID) {
+		MEM_ID = mEM_ID;
 	}
-	public String getMem_email() {
-		return mem_email;
+	public String getMEM_PW() {
+		return MEM_PW;
 	}
-	public void setMem_email(String mem_email) {
-		this.mem_email = mem_email;
+	public void setMEM_PW(String mEM_PW) {
+		MEM_PW = mEM_PW;
 	}
-	public int getMem_tel() {
-		return mem_tel;
+	public String getMEM_NAME() {
+		return MEM_NAME;
 	}
-	public void setMem_tel(int mem_tel) {
-		this.mem_tel = mem_tel;
+	public void setMEM_NAME(String mEM_NAME) {
+		MEM_NAME = mEM_NAME;
 	}
-	public String getMem_adr() {
-		return mem_adr;
+	public String getMEM_POST() {
+		return MEM_POST;
 	}
-	public void setMem_adr(String mem_adr) {
-		this.mem_adr = mem_adr;
+	public void setMEM_POST(String mEM_POST) {
+		MEM_POST = mEM_POST;
 	}
-	public int getMem_point() {
-		return mem_point;
+	public String getMEM_ADR() {
+		return MEM_ADR;
 	}
-	public void setMem_point(int mem_point) {
-		this.mem_point = mem_point;
+	public void setMEM_ADR(String mEM_ADR) {
+		MEM_ADR = mEM_ADR;
 	}
-	public int getMem_rank() {
-		return mem_rank;
+	public String getMEM_TEL() {
+		return MEM_TEL;
 	}
-	public void setMem_rank(int mem_rank) {
-		this.mem_rank = mem_rank;
+	public void setMEM_TEL(String mEM_TEL) {
+		MEM_TEL = mEM_TEL;
 	}
+	public String getMEM_EMAIL() {
+		return MEM_EMAIL;
+	}
+	public void setMEM_EMAIL(String mEM_EMAIL) {
+		MEM_EMAIL = mEM_EMAIL;
+	}
+	public Date getMEM_REGDATE() {
+		return MEM_REGDATE;
+	}
+	public void setMEM_REGDATE(Date mEM_REGDATE) {
+		MEM_REGDATE = mEM_REGDATE;
+	}
+	public int getMEM_POINT() {
+		return MEM_POINT;
+	}
+	public void setMEM_POINT(int mEM_POINT) {
+		MEM_POINT = mEM_POINT;
+	}
+	public boolean isUseCookie() {
+		return useCookie;
+	}
+	public void setUseCookie(boolean useCookie) {
+		this.useCookie = useCookie;
+	}
+	public String getMEM_CKID() {
+		return MEM_CKID;
+	}
+	public void setMEM_CKID(String mEM_CKID) {
+		MEM_CKID = mEM_CKID;
+	}
+	public Date getMEM_CKLIMIT() {
+		return MEM_CKLIMIT;
+	}
+	public void setMEM_CKLIMIT(Date mEM_CKLIMIT) {
+		MEM_CKLIMIT = mEM_CKLIMIT;
+	}
+	public String getMEM_COUPON() {
+		return MEM_COUPON;
+	}
+	public void setMEM_COUPON(String mEM_COUPON) {
+		MEM_COUPON = mEM_COUPON;
+	}
+	
 	
 }
