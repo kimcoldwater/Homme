@@ -46,7 +46,9 @@ import kr.co.vo.SearchCriteria;
 
   //상품삭제
   public void deleteItem(String itemId) throws Exception{
-	  sqlSession.delete("ClientMapper.deleteItem", itemId); 
+	  Map<String, Object> map = new HashMap<>();
+	  map.put("itemNo", itemId);
+	  sqlSession.delete("ClientMapper.deleteItem", map); 
 	  }
   //상품조회
   public int icount(String itemId) throws Exception{

@@ -155,14 +155,14 @@ public class ClientController {
 	
 	//아이템 삭제
 	@RequestMapping(value="/deleteItem", method= {RequestMethod.POST, RequestMethod.GET})
-	public String deleteItem(String itemId,Model model)throws Exception{
-	  logger.info("itemId"+itemId);
+	public String deleteItem(@RequestParam("item_no")String itemNo,Model model)throws Exception{
+	  logger.info("itemNo"+itemNo);
 	  
-	   if(clientService.icount(itemId) > 0) {
-		  clientService.deleteItem(itemId);
+	   if(clientService.icount(itemNo) > 0) {
+		  clientService.deleteItem(itemNo);
 		}else {
 			logger.info("시발...");
-			model.addAttribute("aaa","도와줘요!! 찬수에몽");
+			model.addAttribute("aaa","??????");
 			
 			return "redirect:/master/itemManage";
 		}

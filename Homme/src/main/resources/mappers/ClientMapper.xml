@@ -11,7 +11,7 @@ where mem_id = #{memberId}
 <!-- 상품삭제 -->
 <delete id="deleteItem">
 delete from ITEM 
-where item_id = #{itemId}
+where ITEM_NO = #{itemNo}
 </delete>
 
 <!-- 게시물삭제 -->
@@ -21,9 +21,9 @@ where B_no = #{boardNo}
 </delete>
 
 <!-- 회원정지 -->
-<update id="disableMember" parameterType="hashmap">
+<update id="disableMember" >
 	UPDATE member
-	set MEM_RANK = 2 , MEMBER_SETIONTIME = TO_DATE(SYSDATE + #{sectionTime} , 'YYYY/MM/DD')
+	set MEM_RANK = 2 , MEM_SECTIONTIME = TO_DATE(SYSDATE + #{sectiontime} , 'YYYY/MM/DD')
 	where MEM_ID = #{memberId}
 </update>
 
@@ -37,9 +37,9 @@ update MEMBER set MEMBER_RANK = 1 where MEMBER_ID = #{memberId}
 select count(*) from member where mem_id = #{memberId}
 </select>
 
-<!-- 공지사항 정렬 -->
+<!-- 아이템 정렬 -->
 <select id="icount" resultType="int">
-select count(*) from item where item_id = #{itemId}
+select count(*) from item where item_no = #{itemNo}
 </select>
 
 <!-- 게시판 정렬 -->
