@@ -2,13 +2,17 @@
     pageEncoding="UTF-8"%>
     <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script type="text/javascript">
 
 
 </script>
 <!DOCTYPE html>
 <html>
 <head>
+<link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
+        <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="{% static '/master/itemManage.css %}">
 <meta charset="UTF-8">
 <title>상품뭐시기</title>
 
@@ -25,12 +29,12 @@
           </div>
         </section>
 <header>
-		<h4 align="center">상품뭐시기</h4>
+		<h4 align="center"><a href="/">상품뭐시기</a></h4>
 </header>
 <section id="container">
 <div class="row">
 		<div class="container">
-	<form role="form" method="get" action="deleteItem">
+	<form role="form" method="post" action="/master/deleteItem">
 			<table class="table table-boarderd" >
 	<tr><th>상품 번호</th>
 		<th >상품 이미지</th>
@@ -42,7 +46,6 @@
 		<th>상품 수량</th>
 		<th >상품대분류</th>
 		<th >상품소분류</th>
-		<th >삭제<input type="checkbox" name="deleteitem" onclick="checkAll();"></th>
 	</tr>
 <c:forEach var="item" items="${ilist}">
 <tr>
@@ -56,16 +59,16 @@
 	<td><c:out value="${item.item_vol}" /></td>
 	<td><c:out value="${item.item_catemain}" /></td>
 	<td><c:out value="${item.item_catesub}" /></td>
-	<td><input type="checkbox" name="deletebox" value="${item.item_no }"></td>
 	
 </tr>
 
 </c:forEach>	
 	</table>
-<div>
-
-<button id="deleteItem" class="btn btn-primary " type="submit" style="float: right;">삭제</button>
-
+<div class="form-group">
+<input id="item_name" name="item_name" class="form-control" type="text" style="width:800px;height:30px;" placeholder="삭제할상품명" />
+</div>	
+<div class="form-group" >
+<button id="/master/deleteItem" class="btn btn-primary " type="submit" style="float: right;">삭제</button>
 </div>	
 </form>			
 </div>

@@ -25,20 +25,19 @@
 <section id="container">
 		<div class="container">
 	<form role="form" method="get">
-			<table class="table table-bordered table-sm" >
-	<tr><th>쿠폰 번호</th>
-		<th>쿠폰 이름</th>
-		<th>쿠폰 할인율</th>
-		<th>쿠폰 만기일</th>	
-		<th>삭제</th>
+			<table class="table type02"  border="1"  style="background-color:#8CDF95">
+	<tr>
+	    <th scope="row">쿠폰 번호</th>
+		<th scope="row">쿠폰 이름</th>
+		<th scope="row">쿠폰 할인율</th>
+		<th scope="row">쿠폰 만기일</th>	
 	</tr>
-<c:forEach var="cpn" items="${list }">
+<c:forEach var="cpn" items="${coulist }">
 <tr>
-	<td><c:out value="${cpn.cpn_no}" /></td>
-	<td><c:out value="${cpn.cpn_name}" /></td>
-	<td><c:out value="${cpn.cpn_disc}" /></td>
-	<td><c:out value="${cpn.cpn_edate}" /></td>
-	<td><input type="checkbox" onclick="location.href='/master/deleteitem?itemNo=${list.item_no}'" value="해제"></td>	
+	<td><b><c:out value="${cpn.cpn_no}" /></b></td>
+	<td><b><c:out value="${cpn.cpn_name}" /></b></td>
+	<td><b><c:out value="${cpn.cpn_disc}" /></b></td>
+	<td><b><c:out value="${cpn.cpn_edate}" /></b></td>	
 </tr>
 </c:forEach>		
 </table>
@@ -69,20 +68,13 @@
 <div class="container">
 <div class="row">
 <h4 align="center">쿠폰발급</h4>
-<form action="newcoupon" method="post" style="text-align: center;">
+<form action="/master/newcoupon" method="post" style="text-align: center;">
 <div class="form-group">
 <input id="cpn_name" name="cpn_name" class="form-control" type="text" style="width:800px;height:30px; " placeholder="쿠폰생성" />
-</div>
-<div class="form-group">
   <input class="form-control" id="cpn_disc" name="cpn_disc" type="text" style="width:800px;height:30px; " placeholder="쿠폰 할인율"/>
+  <input class="form-control" id="edate" name="edate" type="text" style="width:800px;height:30px;" placeholder="쿠폰 만기일"/>
 </div>
-<div class="form-group" >
-  <input class="form-control" id="cpn_edate" name="cpn_edate" type="date" style="width:800px;height:30px;" placeholder="쿠폰 만기일"/>
-</div>
-
-<div class="form-group">
 <button id = "createbtn" type="submit" class="btn btn-primary mb-3" style="float: middle;">생성</button>
-</div>
 </form>
 	
 <form action="deletecoupon" method="post" name="deletecoupon">

@@ -155,7 +155,7 @@ public class ClientController {
 	
 	//아이템 삭제
 	@RequestMapping(value="/deleteItem", method= {RequestMethod.POST, RequestMethod.GET})
-	public String deleteItem(@RequestParam("item_no")String itemNo,Model model)throws Exception{
+	public String deleteItem(String itemNo,Model model)throws Exception{
 	  logger.info("itemNo"+itemNo);
 	  
 	   if(clientService.icount(itemNo) > 0) {
@@ -183,10 +183,11 @@ public class ClientController {
 			
 			return "/master/CouponManage";
 		}
+		
 	//쿠폰생성
-		@RequestMapping(value="/newcoupon", method= {RequestMethod.POST, RequestMethod.GET} )
+		@RequestMapping(value="/newcoupon", method= RequestMethod.POST )
 		public String newcoupon(CouponVO vo, int edate) throws Exception{
-			logger.info("가능?" + vo.getCpn_name());
+			logger.info("가능?");
 					
 			clientService.newcoupon(vo,edate);
 			

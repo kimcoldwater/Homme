@@ -21,9 +21,9 @@ public interface ClientDAO {
 	//(관리자)회원목록갯수
 	public int listCount(SearchCriteria scri) throws Exception;
 	//상품삭제
-	public void deleteItem(String itemId) throws Exception;
+	public void deleteItem(String itemNo) throws Exception;
 	//상품조회
-	public int icount(String itemId)throws Exception;
+	public int icount(String itemNo)throws Exception;
 	//상품목록
 	public List<ItemVO> ilist(ItemSearchCriteria scri) throws Exception;
 	//상품목록 갯수

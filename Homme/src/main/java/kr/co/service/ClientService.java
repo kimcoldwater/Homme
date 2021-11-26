@@ -21,9 +21,9 @@ public interface ClientService {
 	//회원 리스트 갯수
 	public int listCount(SearchCriteria scri) throws Exception;
 	//상품 삭제
-	public void deleteItem(String itemId) throws Exception;
+	public void deleteItem(String itemNo) throws Exception;
 	//상품 조회
-	public int icount(String itemId) throws Exception;
+	public int icount(String itemNo) throws Exception;
 	//상품 리스트
 	public List<ItemVO> ilist(ItemSearchCriteria scri) throws Exception;
 	//상품 리스트 갯수

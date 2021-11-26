@@ -45,14 +45,14 @@ import kr.co.vo.SearchCriteria;
   }
 
   //상품삭제
-  public void deleteItem(String itemId) throws Exception{
+  public void deleteItem(String itemNo) throws Exception{
 	  Map<String, Object> map = new HashMap<>();
-	  map.put("itemNo", itemId);
+	  map.put("itemNo", itemNo);
 	  sqlSession.delete("ClientMapper.deleteItem", map); 
 	  }
   //상품조회
-  public int icount(String itemId) throws Exception{
-		return  sqlSession.selectOne("ClientMapper.icount",itemId);
+  public int icount(String itemNo) throws Exception{
+		return  sqlSession.selectOne("ClientMapper.icount",itemNo);
 	  }
   //상품 리스트
   @Override

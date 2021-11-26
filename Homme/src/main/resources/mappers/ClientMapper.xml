@@ -206,7 +206,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 		  ,ROW_NUMBER() OVER(ORDER BY cpn_no DESC) AS RNUM
 		  FROM COUPON
 		         WHERE 1=1 
-		         	<include refid="cousearch"></include>
+		         	<include refid="cousearch" ></include>
 		)MP
 		WHERE RNUM BETWEEN #{rowStart} AND #{rowEnd}
 		ORDER BY cpn_no DESC
@@ -223,7 +223,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 	
 <!-- 상품목록정렬 -->	
 <select id="ilistCount" parameterType="kr.co.vo.ItemSearchCriteria" resultType="int">
-		SELECT COUNT(ITEM_NO)
+		SELECT COUNT(item_no)
 		   FROM ITEM
 		   WHERE 1=1
 		<include refid="isearch"></include>	

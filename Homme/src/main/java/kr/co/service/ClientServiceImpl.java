@@ -47,14 +47,14 @@ public class ClientServiceImpl implements ClientService{
 		return dao.listCount(scri);
 	}
 	//상품 삭제
-	public void deleteItem(String itemId) throws Exception{
+	public void deleteItem(String itemNo) throws Exception{
 		
-		dao.deleteClient(itemId);
+		dao.deleteItem(itemNo);
 		
 	}
 	//상품 목록
-	public int icount(String itemId) throws Exception{
-		return dao.icount(itemId);
+	public int icount(String itemNo) throws Exception{
+		return dao.icount(itemNo);
 		
 	}
 	//상품 리스트
