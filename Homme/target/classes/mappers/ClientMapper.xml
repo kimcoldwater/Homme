@@ -61,6 +61,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 		  ,MEM_ADR
 		  ,MEM_POINT
 		  ,MEM_RANK
+		  ,MEM_SECTIONTIME
 		FROM MEMBER
 		ORDER BY MEM_ID DESC  
 </select>
@@ -112,6 +113,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 		  ,MEM_ADR
 		  ,MEM_POINT
 		  ,MEM_RANK
+		  ,MEM_SECTIONTIME
 		FROM(
 		SELECT MEM_NO
 		  ,MEM_ID
@@ -121,6 +123,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 		  ,MEM_ADR
 		  ,MEM_POINT
 		  ,MEM_RANK
+		  ,MEM_SECTIONTIME
 		  ,ROW_NUMBER() OVER(ORDER BY MEM_NO DESC) AS RNUM
 		  FROM MEMBER
 		         WHERE 1=1 
@@ -259,7 +262,7 @@ select count(*) from coupon where cpn_no = #{cpnNo}
 		</if>
 	</sql>
 
-<!-- 회원 검색바 -->
+<!-- 쿠폰 검색바 -->
 <sql id="cousearch">
 		<if test="searchType != null">
 			<if test="searchType == 'couno'.toString()">AND cpn_no LIKE '%' || #{keyword} || '%'</if>
@@ -332,14 +335,14 @@ INSERT INTO COUPON(
         NVL(MAX(cpn_no), 0) + 1 FROM COUPON)		   
 		   #{cpn_name} ,
 		   #{cpn_disc} ,
-		   #{cpn_edate} 
+		   TO_DATE(SYSDATE + #{cpn_edate} , 'YYYY/MM/DD') 
 		   )		   
 </insert>
 
 <!-- 쿠폰 삭제  -->
 <delete id="deletecoupon">
 delete from coupon
-where cpn_name = #{cpnName}
+where cpn_no = #{cpnName}
 </delete>
 
 <!-- 적립금 -->

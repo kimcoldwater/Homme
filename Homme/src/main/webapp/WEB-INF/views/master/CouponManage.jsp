@@ -69,7 +69,7 @@
 <div class="container">
 <div class="row">
 <h4 align="center">쿠폰발급</h4>
-<form action="newcoupon" method="post" id="newcoupon" name="newcoupon" style="text-align: center;">
+<form action="newcoupon" method="post" style="text-align: center;">
 <div class="form-group">
 <input id="cpn_name" name="cpn_name" class="form-control" type="text" style="width:800px;height:30px; " placeholder="쿠폰생성" />
 </div>
@@ -87,7 +87,7 @@
 	
 <form action="deletecoupon" method="post" name="deletecoupon">
 <div class="form-group">
-<input id="cpn_name" name="cpn_name" class="form-control form-control-lg" type="text" style="width:800px;height:30px;" placeholder="삭제할쿠폰명" />
+<input id="cpn_name" name="cpn_name" class="form-control" type="text" style="width:800px;height:30px;" placeholder="삭제할쿠폰명" />
 </div>
 <div class="form-group" style="text-align: center;">
 <button id = "createbtn" type="submit" class="btn btn-primary mb-3" style="float: right;">삭제</button>

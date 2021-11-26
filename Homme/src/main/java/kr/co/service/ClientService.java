@@ -37,6 +37,6 @@ public interface ClientService {
 	//쿠폰 정렬
 	public int coucount(String cpnName)throws Exception;
 	//쿠폰생성
-	public void newcoupon(CouponVO vo)throws Exception;
+	public void newcoupon(CouponVO vo,int edate)throws Exception;
 
 }

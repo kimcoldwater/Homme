@@ -37,7 +37,7 @@ public interface ClientDAO {
 	//쿠폰 삭제
 	public void deletecoupon(String cpnName)throws Exception;
 	//쿠폰생성
-	public void newcoupon(CouponVO vo) throws Exception;
+	public void newcoupon(CouponVO vo,int edate) throws Exception;
 
 	
 }

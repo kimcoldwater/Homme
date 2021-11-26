@@ -93,9 +93,9 @@ public class ClientServiceImpl implements ClientService{
 	}
 	//쿠폰생성
 	@Override
-	public void newcoupon(CouponVO vo)throws Exception{
+	public void newcoupon(CouponVO vo,int edate)throws Exception{
 		
 		
-		 dao.newcoupon(vo);
+		 dao.newcoupon(vo,edate);
 	}
 }

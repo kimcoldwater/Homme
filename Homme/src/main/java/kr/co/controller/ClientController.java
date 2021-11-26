@@ -185,10 +185,10 @@ public class ClientController {
 		}
 	//쿠폰생성
 		@RequestMapping(value="/newcoupon", method= {RequestMethod.POST, RequestMethod.GET} )
-		public String CouponManage(CouponVO vo) throws Exception{
+		public String newcoupon(CouponVO vo, int edate) throws Exception{
 			logger.info("가능?" + vo.getCpn_name());
 					
-			clientService.newcoupon(vo);
+			clientService.newcoupon(vo,edate);
 			
 			return "/master/CouponManage";			
 		}

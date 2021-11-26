@@ -35,19 +35,34 @@ var msg = "${aaa}";
 	<section id="container">
 		<div class="container">
 		<form role="form" method="get">
-			<table class="table table-bordered table-sm" >
-			<tr><th>번호</th><th>아이디</th><th>이름</th><th>이메일</th><th>전화번호</th><th>주소</th><th>포인트</th><th>랭크</th></tr>
+			<table class="table table-bordered table-sm" border="1" >
+			<tr>
+			<th>번호</th>
+			<th>아이디</th>
+			<th>이름</th>
+			<th>이메일</th>
+			<th>전화번호</th>
+			<th>주소</th>
+			<th>포인트</th>
+			<th>랭크</th>
+			<th>정지기간</th>
+			</tr>
 						
 	<c:forEach items="${list}" var = "list">
 			<tr>
 				<td><c:out value="${list.MEM_NO}" /></td>
-				<td><c:out value="${list.MEM_ID}" /></td>
+				<td width="50"><c:out value="${list.MEM_ID}" /></td>
 				<td><c:out value="${list.MEM_NAME}" /></td>
 				<td><c:out value="${list.MEM_EMAIL}" /></td>
 				<td><c:out value="${list.MEM_TEL}"/></td>
 				<td><c:out value="${list.MEM_ADR}"/></td>
 				<td><c:out value="${list.MEM_POINT}"/></td>
 				<td><c:out value="${list.MEM_RANK}"/></td>
+				<td>
+				<fmt:formatDate pattern="yy-MM-dd" value="${list.MEM_SECTIONTIME}"/>
+				
+				</td>
+				
 			</tr>
 	</c:forEach>
 						

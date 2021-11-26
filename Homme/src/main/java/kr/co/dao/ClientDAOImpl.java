@@ -85,8 +85,11 @@ import kr.co.vo.SearchCriteria;
 	  return  sqlSession.selectOne("ClientMapper.coucount",cpnName);
   }
   //쿠폰생성
-  public void newcoupon(CouponVO vo) throws Exception{
-	  sqlSession.insert("ClientMapper.newcoupon",vo);
+  public void newcoupon(CouponVO vo,int edate) throws Exception{
+	  Map<String, Object> map = new HashMap<String, Object>();
+	  map.put("vo", vo);
+	  map.put("edate", edate);
+	  sqlSession.insert("ClientMapper.newcoupon",map);
   }
 }
 

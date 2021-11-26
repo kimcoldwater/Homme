@@ -16,6 +16,7 @@ public class MemberVO {
 	private boolean useCookie;
 	private String MEM_CKID; 
 	private Date MEM_CKLIMIT;
+	private Date MEM_SECTIONTIME;
 	private String MEM_COUPON;
 	private String MEM_RANK;
 	
@@ -110,6 +111,12 @@ public class MemberVO {
 	}
 	public void setMEM_COUPON(String mEM_COUPON) {
 		MEM_COUPON = mEM_COUPON;
+	}
+	public Date getMEM_SECTIONTIME() {
+		return MEM_SECTIONTIME;
+	}
+	public void setMEM_SECTIONTIME(Date mEM_SECTIONTIME) {
+		MEM_SECTIONTIME = mEM_SECTIONTIME;
 	}
 	
 	
